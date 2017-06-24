@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zengargoyle/p6-DateTime-at.svg?branch=master)](https://travis-ci.org/zengargoyle/p6-DateTime-at)
+
 NAME
 ====
 
