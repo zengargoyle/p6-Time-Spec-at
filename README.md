@@ -3,17 +3,17 @@
 NAME
 ====
 
-DateTime::at - blah blah blah
+Time::Spec::at - blah blah blah
 
 SYNOPSIS
 ========
 
-    use DateTime::at;
+    use Time::Spec::at;
 
 DESCRIPTION
 ===========
 
-DateTime::at is ...
+Time::Spec::at is ...
 
 AUTHOR
 ======

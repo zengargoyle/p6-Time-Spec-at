@@ -1,20 +1,20 @@
 use v6.c;
-unit class DateTime::at:ver<0.0.1>;
+unit class Time::Spec::at:ver<0.0.1>;
 
 
 =begin pod
 
 =head1 NAME
 
-DateTime::at - blah blah blah
+Time::Spec::at - blah blah blah
 
 =head1 SYNOPSIS
 
-  use DateTime::at;
+  use Time::Spec::at;
 
 =head1 DESCRIPTION
 
-DateTime::at is ...
+Time::Spec::at is ...
 
 =head1 AUTHOR
 

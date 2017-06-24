@@ -1,6 +1,6 @@
 use v6.c;
 use Test;
-use DateTime::at;
+use Time::Spec::at;
 
 pass "replace me";
 

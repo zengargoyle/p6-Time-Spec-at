@@ -6,10 +6,11 @@
   "depends" : [ ],
   "description" : "blah blah blah",
   "license" : "Artistic-2.0",
-  "name" : "DateTime::at",
+  "name" : "Time::Spec::at",
   "perl" : "6.c",
   "provides" : {
-    "DateTime::at" : "lib/DateTime/at.pm6"
+    "Time::Spec::at" : "lib/Time/Spec/at.pm6",
+    "Time::Spec::at::Grammar" : "lib/Time/Spec/at/Grammar.pm6"
   },
   "resources" : [ ],
   "source-url" : "git://github.com/zengargoyle/p6-DateTime-at.git",
