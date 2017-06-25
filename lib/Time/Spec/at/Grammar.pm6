@@ -4,6 +4,8 @@ unit class Time::Spec::at::Grammar:ver<0.0.1>:auth<github:zengargoyle>;
 
 grammar At {
 
+  rule TOP { <timespec> }
+
   token INT1DIGIT { <[0..9]> }
   token INT2DIGIT { <[0..9]> ** 2 }
   token INT4DIGIT { <[0..9]> ** 4 }
@@ -51,6 +53,39 @@ grammar At {
   token DEC { dec[ember]? }
   token UTC { utc }
 
+  rule timespec { <spec_base> | <spec_base> <inc_or_dec> }
+  rule spec_base { <date> | <time> | <time> <date> | <NOW> }
+  rule time { <time_base> | <time_base> <timezone_name> }
+  rule time_base { <hr24clock_hr_min> | <time_hour> <am_pm> | <time_hour_min> 
+    | <time_hour_min> <am_pm> | <NOON> | <MIDNIGHT> | <TEATIME>
+  }
+  rule hr24clock_hr_min { <INT4DIGIT> }
+  rule time_hour { <int2_2digit> }
+  rule time_hour_min { <HOURMIN> }
+  rule am_pm { <AM> | <PM> }
+  rule timezone_name { <UTC> }
+  rule date { <month_name> <day_number> | <month_name> <day_number> <year_number>
+    | <month_name> <day_number> ',' <year_number> | <day_of_week> | <TODAY> | <TOMORROW>
+    | <HYPENDATE> | <DOTTEDDATE> | <day_number> <month_name> | <day_number> <month_name> <year_number>
+    | <month_number> '/' <day_number> '/' <year_number> | <concatenated_date>
+    | <NEXT> <inc_dec_period> | <NEXT> <day_of_week>
+  }
+  rule concatenated_date { <INT5_8DIGIT> }
+  rule month_name { <JAN> | <FEB> | <MAR> | <APR> | <MAY> | <JUN> | <JUL> | <AUG> | <SEP> | <OCT>
+    | <NOV> | <DEC>
+  }
+  rule month_number { <int1_2digit> }
+  rule day_number { <int1_2digit> }
+  rule year_number { <int2_or_4digit> }
+  rule day_of_week { <SUN> | <MON> | <TUE> | <WED> | <THU> | <FRI> | <SAT> }
+  rule inc_or_dec { <increment> | <decrement> }
+  rule increment { '+' <inc_dec_number> <inc_dec_period> }
+  rule decrement { '-' <inc_dec_number> <inc_dec_period> }
+  rule inc_dec_number { <integer> }
+  rule inc_dec_period { <MINUTE> | <HOUR> | <DAY> | <WEEK> | <MONTH> | <YEAR> }
+  rule int1_2digit { <INT1DIGIT> | <INT2DIGIT> }
+  rule int2_or_4digit { <INT2DIGIT> | <INT4DIGIT> }
+  rule integer { <INT> | <INT1DIGIT> | <INT2DIGIT> | <INT4DIGIT> | <INT5_8DIGIT> }
 }
 
 =begin pod
