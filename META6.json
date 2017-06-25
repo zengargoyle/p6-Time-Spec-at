@@ -10,6 +10,7 @@
   "perl" : "6.c",
   "provides" : {
     "Time::Spec::at" : "lib/Time/Spec/at.pm6",
+    "Time::Spec::at::Actions" : "lib/Time/Spec/at/Actions.pm6",
     "Time::Spec::at::Grammar" : "lib/Time/Spec/at/Grammar.pm6"
   },
   "resources" : [ ],

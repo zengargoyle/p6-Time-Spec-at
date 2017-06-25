@@ -1,6 +1,6 @@
 
 use v6.c;
-unit class Time::Spec::at::Grammar:ver<0.0.1>:auth<github:zengargoyle>;
+unit module Time::Spec::at::Grammar:ver<0.0.1>:auth<github:zengargoyle>;
 
 grammar At {
 
