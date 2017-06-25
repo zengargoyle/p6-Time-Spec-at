@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/zengargoyle/p6-DateTime-at.svg?branch=master)](https://travis-ci.org/zengargoyle/p6-DateTime-at)
+[![Build Status](https://travis-ci.org/zengargoyle/p6-Time-Spec-at.svg?branch=master)](https://travis-ci.org/zengargoyle/p6-Time-Spec-at)
 
 NAME
 ====
