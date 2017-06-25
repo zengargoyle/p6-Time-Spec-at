@@ -108,9 +108,10 @@ grammar At {
   rule decrement { '-' <inc_dec_number> <inc_dec_period> }
   rule inc_dec_number { <integer> }
   rule inc_dec_period { <MINUTE> | <HOUR> | <DAY> | <WEEK> | <MONTH> | <YEAR> }
-  rule int1_2digit { <INT1DIGIT> | <INT2DIGIT> }
-  rule int2_or_4digit { <INT2DIGIT> | <INT4DIGIT> }
-  rule integer { <INT> | <INT1DIGIT> | <INT2DIGIT> | <INT4DIGIT> | <INT5_8DIGIT> }
+  rule int1_2digit { <INT2DIGIT> | <INT1DIGIT> }
+  rule int2_or_4digit { <INT4DIGIT> | <INT2DIGIT> }
+  #rule integer { <INT5_8DIGIT>| <INT4DIGIT> | <INT2DIGIT> | <INT1DIGIT> | <INT> }
+  rule integer { <INT> }
 
 }
 
