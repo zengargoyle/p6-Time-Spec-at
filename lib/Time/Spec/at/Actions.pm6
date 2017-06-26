@@ -35,7 +35,10 @@ class AtActions {
   method date ($/) {
     given $/ {
       when $/<HYPHENDATE>:exists {
-        make $/<HYPHENDATE>.made;
+        my $x= $/<HYPHENDATE>.made; dd $x; make $x;
+      }
+      when $/<DOTTEDDATE>:exists {
+        my $x= $/<DOTTEDDATE>.made; dd $x; make $x;
       }
       default { note "wut date" }
     }
