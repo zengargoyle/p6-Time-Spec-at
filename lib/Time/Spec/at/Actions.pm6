@@ -12,12 +12,12 @@ class AtActions {
 
   # method NOW ($/) { make $.now }
   # NOTE: $.now .= clone().truncated-to(); doen't work as i expected. :)
-  method NOON ($/) { $.now = $.now.clone(:12hour).truncated-to('hour'); }
-  method MIDNIGHT ($/) { $.now = $.now.truncated-to('day'); }
-  method TEATIME ($/) { $.now = $.now.clone(:16hour).truncated-to('hour'); }
+  method NOON     ($/) { $.now = $.now.clone(:12hour).truncated-to('hour'); }
+  method TEATIME  ($/) { $.now = $.now.clone(:16hour).truncated-to('hour'); }
+  method MIDNIGHT ($/) { $.now =                $.now.truncated-to('day'); }
 
   method increment ($/) {
-    $.now .= later: |Pair.new($/<inc_dec_period>.made, $/<inc_dec_number>.made);
+    $.now .= later:   |Pair.new($/<inc_dec_period>.made, $/<inc_dec_number>.made);
   }
   method decrement ($/) {
     $.now .= earlier: |Pair.new($/<inc_dec_period>.made, $/<inc_dec_number>.made);
@@ -28,7 +28,7 @@ class AtActions {
 
   method inc_dec_period ($/) { make $/.keys.first.lc.Str }
   method inc_dec_number ($/) { make $/<integer>.made }
-  method integer ($/) { make +$/<INT> }
+  method integer        ($/) { make +$/<INT> }
 
 }
 
