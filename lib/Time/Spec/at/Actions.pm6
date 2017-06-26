@@ -4,7 +4,26 @@ unit module Time::Spec::at::Actions:ver<0.0.1>:auth<github:zengargoyle>;
 
 class AtActions {
   has DateTime $.now is rw = DateTime.now;
-  method TOP ($/) { make $.now; }
+
+  method TOP ($/) {
+    make $/<timespec>.made;
+  }
+  method timespec:sym<sb> ($/) {
+    given $/<spec_base>.made {
+      when DateTime { make $_ }
+      # default { make DateTime.new: :2525year }
+    }
+  }
+  method spec_base ($/) {
+    if $/<n>:exists { make $.now }
+    elsif $/<d>:exists { make $/<date>.made }
+  }
+  method date ($/) {
+    if $/<HYPHENDATE> -> $hd {
+      my $dt = DateTime.new( |$hd.pairs.map({ .key => +.value}).Hash );
+      make $dt;
+    }
+  }
 }
 
 =begin pod

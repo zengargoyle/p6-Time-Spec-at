@@ -11,9 +11,20 @@ grammar At {
   token INT4DIGIT { <[0..9]> ** 4 }
   token INT5_8DIGIT { <[0..9]> ** 5..8 }
   token INT { <INT1DIGIT> + }
-  token DOTTEDDATE { <INT1DIGIT> ** 1..2 '.' <INT1DIGIT> ** 1..2 '.' [ <INT4DIGIT> | <INT2DIGIT> ] }
-  token HYPHENDATE { [ <INT4DIGIT> | <INT2DIGIT> ] '-' <INT1DIGIT> ** 1..2 '-' <INT1DIGIT> ** 1..2 }
-  token HOURMIN { $<hour> = [ <[0..2]> <INT1DIGIT> | <INT1DIGIT> ] <[\:\'h,\.]> $<min> = <INT2DIGIT> }
+  token DOTTEDDATE {
+    $<month>=[ <.INT1DIGIT> ** 1..2 ] '.'
+    $<day>=[ <.INT1DIGIT> ** 1..2 ] '.'
+    $<year>=[ <.INT4DIGIT> | <.INT2DIGIT> ]
+  }
+  token HYPHENDATE {
+    $<year>=[ <.INT4DIGIT> | <.INT2DIGIT> ] '-'
+    $<month>=[ <.INT1DIGIT> ** 1..2 ] '-'
+    $<day>=[ <.INT1DIGIT> ** 1..2 ]
+  }
+  token HOURMIN {
+    $<hour>=[ <[0..2]> <.INT1DIGIT> | <.INT1DIGIT> ] <[\:\'h,\.]>
+    $<min>=[<.INT2DIGIT>]
+  }
 
   token AM {:i am }
   token PM {:i pm }
@@ -60,15 +71,15 @@ grammar At {
   token NEXT {:i next }
   token UTC {:i utc }
 
-  rule timespec {
-    | <spec_base> <inc_or_dec>
-    | <spec_base>
-  }
+  proto rule timespec { * }
+  rule timespec:sym<sbid> { <spec_base> <inc_or_dec> }
+  rule timespec:sym<sb> { <spec_base> }
+
   rule spec_base {
-    | <NOW>
-    | <time> <date>
-    | <time>
-    | <date>
+    | $<n>=[<.NOW>]
+    | $<d>=[<date>]
+    | $<td>=[<time> <date>]
+    | $<t>=[<.time>]
   }
   rule time {
     | <time_base> <timezone_name>
