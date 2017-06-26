@@ -36,16 +36,9 @@ my @tests =
   "23:55 dec 31",
   "23:55 dec 31 + 7 minutes",
   ;
+
 for @tests -> $test {
   ok tp(<TOP>, $test), $test;
 }
-# ok tp(<inc_dec_number>, "1"), "inc_dec_number 1";
-# ok tp(<inc_dec_period>, "min"), "inc_dec_period min";
-# ok tp(<increment>, "+ 1 min"), "increment + 1 min";
-# ok tp(<inc_or_dec>, "+ 1 min"), "inc_or_dec + 1 min";
-# ok tp(<timespec>, "now + 1 min"), "timespec now + 1 min";
-# ok tp(<timespec>, "now"), "timespec now";
 
-# ok tp(<date>, "dec 17"), "date dec 17";
-# ok tp(<month_name>, 'dec'), "month_name dec";
 done-testing;

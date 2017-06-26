@@ -15,18 +15,18 @@ grammar At {
     $<month>=[ <.INT1DIGIT> ** 1..2 ] '.'
     $<day>=[ <.INT1DIGIT> ** 1..2 ] '.'
     $<year>=[ <.INT4DIGIT> | <.INT2DIGIT> ]
-    { make DateTime.new: year => +$/<year>, month => +$/<month>, day => +$/<day> }
+    { make { year => +$/<year>, month => +$/<month>, day => +$/<day> } }
   }
   token HYPHENDATE {
     $<year>=[ <.INT4DIGIT> | <.INT2DIGIT> ] '-'
     $<month>=[ <.INT1DIGIT> ** 1..2 ] '-'
     $<day>=[ <.INT1DIGIT> ** 1..2 ]
-    { make DateTime.new: year => +$/<year>, month => +$/<month>, day => +$/<day> }
+    { make { year => +$/<year>, month => +$/<month>, day => +$/<day> } }
   }
   token HOURMIN {
     $<hour>=[ <[0..2]> <.INT1DIGIT> | <.INT1DIGIT> ] <[\:\'h,\.]>
-    $<min>=[<.INT2DIGIT>]
-    { make {hour => $/<hour>, minute => +$/<minute>} }
+    $<minute>=[<.INT2DIGIT>]
+    { make { hour => +$/<hour>, minute => +$/<minute> } }
   }
 
   token AM {:i am }

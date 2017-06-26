@@ -5,7 +5,7 @@ use Time::Spec::at::Grammar;
 
 my sub tp ($rule,$str) { Time::Spec::at::Grammar::At.parse($str,:$rule) }
 
-ok tp(<INT1DIGIT>, "9"), "match an integer";
+ok tp(<INT1DIGIT>, 9), "match an integer";
 
 ok tp(<HOURMIN>, "12:30"), "hm 12:30";
 ok tp(<HOURMIN>, "12h30"), "hm 12h30";
