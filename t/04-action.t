@@ -86,4 +86,12 @@ $match = tpam( "1:34 am" );
 $try = $now.clone(:1hour, :34minute);
 ok $match eqv $try, "1:34 am";
 
+$match = tpam( "today" );
+$try = $now.Date.DateTime;
+ok $match eqv $try, "today";
+
+$match = tpam( "tomorrow" );
+$try = $now.Date.later(:1day).DateTime;
+ok $match eqv $try, "tomorrow";
+
 done-testing;

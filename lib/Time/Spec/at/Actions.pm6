@@ -18,7 +18,7 @@ class AtActions {
   # NOTE: $.now .= clone().truncated-to(); doen't work as i expected. :)
   method NOON     ($/) { $.now = $.now.clone(:12hour).truncated-to('hour'); }
   method TEATIME  ($/) { $.now = $.now.clone(:16hour).truncated-to('hour'); }
-  method MIDNIGHT ($/) { $.now =                $.now.truncated-to('day'); }
+  method MIDNIGHT ($/) { $.now =                $.now.truncated-to('day');  }
 
   method increment ($/) {
     $.now .= later:   |Pair.new($/<inc_dec_period>.made, $/<inc_dec_number>.made);
@@ -40,6 +40,7 @@ class AtActions {
   method INT5_8DIGIT ($/) { make +$/ }
 
   method time_hour ($/) { $.now .= clone( hour => +$/ ); }
+  # method time_hour_min ($/) { $.now .= clone( hour => +$/ ); }
   method PM ($/) { $.now = $.now.hour < 12 ?? $.now.later(:12hour) !! $.now; }
 
 }
