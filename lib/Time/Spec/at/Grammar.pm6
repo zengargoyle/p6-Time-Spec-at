@@ -15,12 +15,16 @@ grammar At {
   token HYPHENDATE { [ <INT4DIGIT> | <INT2DIGIT> ] '-' <INT1DIGIT> ** 1..2 '-' <INT1DIGIT> ** 1..2 }
   token HOURMIN { $<hour> = [ <[0..2]> <INT1DIGIT> | <INT1DIGIT> ] <[\:\'h,\.]> $<min> = <INT2DIGIT> }
 
-  token NOW {:i now }
   token AM {:i am }
   token PM {:i pm }
+
+  token NOW {:i now }
   token NOON {:i noon }
   token MIDNIGHT {:i midnight }
   token TEATIME {:i teatime }
+
+  token TODAY {:i today }
+  token TOMORROW {:i tomorrow }
 
   proto token day_of_week { * }
   token day_of_week:sym<SUN> {:i sun[day]? }
@@ -30,10 +34,6 @@ grammar At {
   token day_of_week:sym<THU> {:i thu[rsday]? }
   token day_of_week:sym<FRI> {:i fri[day]? }
   token day_of_week:sym<SAT> {:i sat[urday]? }
-
-  token TODAY {:i today }
-  token TOMORROW {:i tomorrow }
-  token NEXT {:i next }
 
   proto token inc_dec_period { * }
   token inc_dec_period:sym<MINUTE> {:i min | minute[s]? }
@@ -57,6 +57,7 @@ grammar At {
   token month_name:sym<NOV> {:i nov[ember]? }
   token month_name:sym<DEC> {:i dec[ember]? }
 
+  token NEXT {:i next }
   token UTC {:i utc }
 
   rule timespec {
