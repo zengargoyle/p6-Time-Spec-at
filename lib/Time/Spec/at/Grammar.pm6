@@ -75,7 +75,7 @@ grammar At {
     | <NOON> | <MIDNIGHT> | <TEATIME>
   }
   rule hr24clock_hr_min { <INT4DIGIT> }
-  rule time_hour { <int2_2digit> }
+  rule time_hour { <int1_2digit> }
   rule time_hour_min { <HOURMIN> }
   rule am_pm { <AM> | <PM> }
   rule timezone_name { <UTC> }
