@@ -13,7 +13,7 @@ grammar At {
   token INT { <INT1DIGIT> + }
   token DOTTEDDATE { <INT1DIGIT> ** 1..2 '.' <INT1DIGIT> ** 1..2 '.' [ <INT4DIGIT> | <INT2DIGIT> ] }
   token HYPHENDATE { [ <INT4DIGIT> | <INT2DIGIT> ] '-' <INT1DIGIT> ** 1..2 '-' <INT1DIGIT> ** 1..2 }
-  token HOURMIN { [ <[0..2]> <INT1DIGIT> | <INT1DIGIT> ] <[\:\'h,\.]> <INT2DIGIT> }
+  token HOURMIN { $<hour> = [ <[0..2]> <INT1DIGIT> | <INT1DIGIT> ] <[\:\'h,\.]> $<min> = <INT2DIGIT> }
 
   token NOW {:i now }
   token AM {:i am }
