@@ -4,9 +4,13 @@ unit module Time::Spec::at::Actions:ver<0.0.1>:auth<github:zengargoyle>;
 
 class AtActions {
   has DateTime $.now is rw = DateTime.now;
-  has Date $.date is rw = Date.new( $!now );
+  has Date $.nowdate is rw = Date.new( $!now );
 
   method TOP ($/) { make $.now; }
+
+  # NOTE: ugly split, fix later
+  method HYPHENDATE ($/) { my ($y,$m,$d) = $/.split('-'); $y += 1900 if $y < 100; $.now = Date.new($y, $m, $d).DateTime; }
+  method DOTTEDDATE ($/) { my ($m,$d,$y) = $/.split('.'); $y += 1900 if $y < 100; $.now = Date.new($y, $m, $d).DateTime; }
 
   method HOURMIN ($/) { $.now .= clone(hour => +$/<hour>, minute => +$/<min>); }
 

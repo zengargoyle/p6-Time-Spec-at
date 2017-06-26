@@ -86,8 +86,8 @@ grammar At {
     | <day_of_week>
     | <TODAY>
     | <TOMORROW>
-    | <HYPHENDATE>
     | <DOTTEDDATE>
+    | <HYPHENDATE>
     | <month_number> '/' <day_number> '/' <year_number>
     | <day_number> <month_name> <year_number>
     | <day_number> <month_name>
