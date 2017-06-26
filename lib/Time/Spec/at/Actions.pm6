@@ -3,7 +3,43 @@ use v6.c;
 unit module Time::Spec::at::Actions:ver<0.0.1>:auth<github:zengargoyle>;
 
 class AtActions {
+
   has DateTime $.now is rw = DateTime.now;
+
+  my sub dt2h ($dt) {
+    return {
+      year => $dt.year,
+      month => $dt.month,
+      day => $dt.day,
+      hour => $dt.hour,
+      minute => $dt.minute,
+      second => $dt.second,
+      timezone => $dt.timezone,
+    }
+  }
+
+  method TOP ($/) {
+    # dd [ 'top', $/<timespec>.made ];
+    make DateTime.new: |$/<timespec>.made;
+  }
+  method timespec:sym<sb> ($/) {
+    make $/<spec_base>.made;
+  }
+  method spec_base ($/) {
+    given $/ {
+      when $/<n>:exists { make dt2h( $.now ) }
+      when $/<d>:exists { make $/<date>.made }
+      default { note "wut spec_base" }
+    }
+  }
+  method date ($/) {
+    given $/ {
+      when $/<HYPHENDATE>:exists {
+        make $/<HYPHENDATE>.made;
+      }
+      default { note "wut date" }
+    }
+  }
 }
 
 =begin pod
