@@ -3,43 +3,29 @@ use v6.c;
 unit module Time::Spec::at::Actions:ver<0.0.1>:auth<github:zengargoyle>;
 
 class AtActions {
-  has DateTime $.now = DateTime.now;
+  has DateTime $.now is rw = DateTime.now;
+  has Date $.date is rw = Date.new( $!now );
 
-  method TOP ($/) {
-    make $/<timespec>.made;
-  }
+  method TOP ($/) { make $.now; }
 
-  method timespec ($/) {
-    my $dt = $/<spec_base>.made;
-    if $/<inc_or_dec><increment>.made -> $delta {
-      $dt.=later: |$delta;
-    }
-    elsif $/<inc_or_dec><decrement>.made -> $delta {
-      $dt.=earlier: |$delta;
-    }
-    make $dt;;
-  }
+  method HOURMIN ($/) { $.now .= clone(hour => +$/<hour>, minute => +$/<min>); }
 
-  method spec_base ($/) { make $/.values.first.made }
+  # method NOW ($/) { make $.now }
+  # NOTE: $.now .= clone().truncated-to(); doen't work as i expected. :)
+  method NOON ($/) { $.now = $.now.clone(:12hour).truncated-to('hour'); }
+  method MIDNIGHT ($/) { $.now = $.now.truncated-to('day'); }
+  method TEATIME ($/) { $.now = $.now.clone(:16hour).truncated-to('hour'); }
 
-  method time ($/) { dd DateTime.new: |$/<time_base>.made.hash; }
-
-  method time_base ($/) { make $/.values.first.made; }
-  method time_hour_min ($/) { make $/<HOURMIN>.made; }
-  method HOURMIN ($/) { make (hour => +$/<hour>, minute => +$/<min>); }
-
-  method NOW ($/) { make $.now }
-
-  # method inc_or_dec ($/) { }
   method increment ($/) {
-    make $/<inc_dec_period>.made => +$/<inc_dec_number>.made;
+    $.now .= later: |Pair.new($/<inc_dec_period>.made, $/<inc_dec_number>.made);
   }
   method decrement ($/) {
-    make $/<inc_dec_period>.made => +$/<inc_dec_number>.made;
+    $.now .= earlier: |Pair.new($/<inc_dec_period>.made, $/<inc_dec_number>.made);
   }
 
-  method month_name ($/) { make $/.keys.first.lc.Str }
-  method day_of_week ($/) { make $/.keys.first.lc.Str }
+  # method month_name ($/) { make $/.keys.first.lc.Str }
+  # method day_of_week ($/) { make $/.keys.first.lc.Str }
+
   method inc_dec_period ($/) { make $/.keys.first.lc.Str }
   method inc_dec_number ($/) { make $/<integer>.made }
   method integer ($/) { make +$/<INT> }
