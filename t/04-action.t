@@ -70,4 +70,20 @@ $match = tpam( "12.08.69 + 1 min" );
 $try = Date.new('1969-12-08').DateTime.later(:1minute);
 ok $match eqv $try, "dotteddate 12.08.69 + 1 min";
 
+$match = tpam( "1 pm" );
+$try = $now.clone(:13hour);
+ok $match eqv $try, "1 pm";
+
+$match = tpam( "1 am" );
+$try = $now.clone(:1hour);
+ok $match eqv $try, "1 am";
+
+$match = tpam( "1:34 pm" );
+$try = $now.clone(:13hour, :34minute);
+ok $match eqv $try, "1:34 pm";
+
+$match = tpam( "1:34 am" );
+$try = $now.clone(:1hour, :34minute);
+ok $match eqv $try, "1:34 am";
+
 done-testing;

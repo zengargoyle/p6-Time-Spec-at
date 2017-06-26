@@ -34,6 +34,14 @@ class AtActions {
   method inc_dec_number ($/) { make $/<integer>.made }
   method integer        ($/) { make +$/<INT> }
 
+  method INT1DIGIT ($/) { make +$/ }
+  method INT2DIGIT ($/) { make +$/ }
+  method INT4DIGIT ($/) { make +$/ }
+  method INT5_8DIGIT ($/) { make +$/ }
+
+  method time_hour ($/) { $.now .= clone( hour => +$/ ); }
+  method PM ($/) { $.now = $.now.hour < 12 ?? $.now.later(:12hour) !! $.now; }
+
 }
 
 =begin pod
