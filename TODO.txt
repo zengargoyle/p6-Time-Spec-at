@@ -1,0 +1,5 @@
+
+* i think `at` does some smart "it's mostly in the future" logic.  i'm not
+  doing that yet.  i.e. "teatime" is 16:00 today if it's before 16:00, but
+  is 16:00 tomorow if it's after 16:00 right now.
+
