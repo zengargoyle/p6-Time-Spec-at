@@ -21,38 +21,44 @@ grammar At {
   token NOON {:i noon }
   token MIDNIGHT {:i midnight }
   token TEATIME {:i teatime }
-  token SUN {:i sun[day]? }
-  token MON {:i mon[day]? }
-  token TUE {:i tue[sday]? }
-  token WED {:i wed[nesday]? }
-  token THU {:i thu[rsday]? }
-  token FRI {:i fri[day]? }
-  token SAT {:i sat[urday]? }
+
+  proto token day_of_week { * }
+  token day_of_week:sym<SUN> {:i sun[day]? }
+  token day_of_week:sym<MON> {:i mon[day]? }
+  token day_of_week:sym<TUE> {:i tue[sday]? }
+  token day_of_week:sym<WED> {:i wed[nesday]? }
+  token day_of_week:sym<THU> {:i thu[rsday]? }
+  token day_of_week:sym<FRI> {:i fri[day]? }
+  token day_of_week:sym<SAT> {:i sat[urday]? }
+
   token TODAY {:i today }
   token TOMORROW {:i tomorrow }
   token NEXT {:i next }
-  token MINUTE {:i min | minute[s]? }
-  token HOUR {:i hour[s]? }
-  token DAY {:i day[s]? }
-  token WEEK {:i week[s]? }
-  token MONTH {:i month[s]? }
-  token YEAR {:i year[s]? }
-  token JAN {:i jan[uary]? }
-  token FEB {:i feb[ruary]? }
-  token MAR {:i mar[ch]? }
-  token APR {:i apr[il]? }
-  token MAY {:i may }
-  token JUN {:i jun[e]? }
-  token JUL {:i jul[y]? }
-  token AUG {:i aug[ust]? }
-  token SEP {:i sep[tember]? }
-  token OCT {:i oct[ober]? }
-  token NOV {:i nov[ember]? }
-  token DEC {:i dec[ember]? }
+
+  proto token inc_dec_period { * }
+  token inc_dec_period:sym<MINUTE> {:i min | minute[s]? }
+  token inc_dec_period:sym<HOUR> {:i hour[s]? }
+  token inc_dec_period:sym<DAY> {:i day[s]? }
+  token inc_dec_period:sym<WEEK> {:i week[s]? }
+  token inc_dec_period:sym<MONTH> {:i month[s]? }
+  token inc_dec_period:sym<YEAR> {:i year[s]? }
+
+  proto token month_name { * }
+  token month_name:sym<JAN> {:i jan[uary]? }
+  token month_name:sym<FEB> {:i feb[ruary]? }
+  token month_name:sym<MAR> {:i mar[ch]? }
+  token month_name:sym<APR> {:i apr[il]? }
+  token month_name:sym<MAY> {:i may }
+  token month_name:sym<JUN> {:i jun[e]? }
+  token month_name:sym<JUL> {:i jul[y]? }
+  token month_name:sym<AUG> {:i aug[ust]? }
+  token month_name:sym<SEP> {:i sep[tember]? }
+  token month_name:sym<OCT> {:i oct[ober]? }
+  token month_name:sym<NOV> {:i nov[ember]? }
+  token month_name:sym<DEC> {:i dec[ember]? }
+
   token UTC {:i utc }
 
-  # rule timespec { <spec_base> | <spec_base> <inc_or_dec> }
-  # rule timespec { <spec_base> | [ <spec_base> <inc_or_dec> ] }
   rule timespec {
     | <spec_base> <inc_or_dec>
     | <spec_base>
@@ -96,21 +102,15 @@ grammar At {
     | <NEXT> <day_of_week>
   }
   rule concatenated_date { <INT5_8DIGIT> }
-  rule month_name { <JAN> | <FEB> | <MAR> | <APR> | <MAY> | <JUN> | <JUL> | <AUG> | <SEP> | <OCT>
-    | <NOV> | <DEC>
-  }
   rule month_number { <int1_2digit> }
   rule day_number { <int1_2digit> }
   rule year_number { <int2_or_4digit> }
-  rule day_of_week { <SUN> | <MON> | <TUE> | <WED> | <THU> | <FRI> | <SAT> }
   rule inc_or_dec { <increment> | <decrement> }
   rule increment { '+' <inc_dec_number> <inc_dec_period> }
   rule decrement { '-' <inc_dec_number> <inc_dec_period> }
   rule inc_dec_number { <integer> }
-  rule inc_dec_period { <MINUTE> | <HOUR> | <DAY> | <WEEK> | <MONTH> | <YEAR> }
   rule int1_2digit { <INT2DIGIT> | <INT1DIGIT> }
   rule int2_or_4digit { <INT4DIGIT> | <INT2DIGIT> }
-  #rule integer { <INT5_8DIGIT>| <INT4DIGIT> | <INT2DIGIT> | <INT1DIGIT> | <INT> }
   rule integer { <INT> }
 
 }
