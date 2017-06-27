@@ -104,6 +104,14 @@ $match = tpam( "12:05 am" );
 $try = $now.clone(:0hour,:5minute);
 ok $match eqv $try, "12:05 am";
 
+$match = tpam( "1 pm" );
+$try = $now.clone(:13hour);
+ok $match eqv $try, "1 pm";
+
+$match = tpam( "12 am" );
+$try = $now.clone(:0hour);
+ok $match eqv $try, "12 am";
+
 dd $match;
 dd $try;
 

@@ -43,8 +43,8 @@ class AtActions {
   method time_base ($/) {
     given $/ {
       when $/<hr24clock_hr_min>:exists { make $/<hr24clock_hr_min>.made }
-      when $/<time_hour_min>:exists {
-        my %r = $/<time_hour_min><HOURMIN>.made;
+      when $/<time_hour_min>:exists or $/<time_hour>:exists {
+        my %r = $/<time_hour_min><HOURMIN>.made // hour => +$/<time_hour>;
         %r<hour> += 12 if %r<hour> < 12 and $/<am_pm><PM>:exists;
         %r<hour> = 0 if %r<hour> == 12 and $/<am_pm><AM>:exists;
         make %r;
