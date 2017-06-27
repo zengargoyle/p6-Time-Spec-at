@@ -74,4 +74,17 @@ $match = tpam( "tomorrow" );
 $try = $now.Date.later(:1day).DateTime;
 ok $match eqv $try, "today";
 
+$match = tpam( "wed" );
+$try = Date.new(2017,6,27).later(:1day).DateTime;
+ok $match eqv $try, "wed";
+$match = tpam( "mon" );
+$try = Date.new(2017,6,27).earlier(:1day).later(:1week).DateTime;
+ok $match eqv $try, "mon";
+$match = tpam( "tue" );
+$try = Date.new(2017,6,27).DateTime;
+ok $match eqv $try, "tue";
+
+dd $match;
+dd $try;
+
 done-testing;

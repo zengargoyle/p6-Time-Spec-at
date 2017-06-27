@@ -65,7 +65,16 @@ class AtActions {
         when $/<day_of_week>:exists { ... }
         default { note 'wut NEXT' }
       }
-      when $/<day_of_week>:exits { ... }
+      when $/<day_of_week>:exists { 
+        my $now = $.now.Date;
+        my $now-day = $now.day-of-week;
+        my $dow = $/<day_of_week>.made;
+        given $now-day cmp $dow {
+          when Less { $now .= later: day => $dow - $now-day; }
+          when More { $now .= earlier: day => $now-day - $dow; $now .= later: :1week; }
+        }
+        make { year => $now.year, month => $now.month, day => $now.day };
+      }
       when $/<concatenated_date>:exists { ... }
       default { note "wut date" }
     }

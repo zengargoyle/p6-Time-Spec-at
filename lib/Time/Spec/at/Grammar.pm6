@@ -41,13 +41,13 @@ grammar At {
   token TOMORROW {:i tomorrow }
 
   proto token day_of_week { * }
-  token day_of_week:sym<SUN> {:i sun[day]? }
-  token day_of_week:sym<MON> {:i mon[day]? }
-  token day_of_week:sym<TUE> {:i tue[sday]? }
-  token day_of_week:sym<WED> {:i wed[nesday]? }
-  token day_of_week:sym<THU> {:i thu[rsday]? }
-  token day_of_week:sym<FRI> {:i fri[day]? }
-  token day_of_week:sym<SAT> {:i sat[urday]? }
+  token day_of_week:sym<SUN> {:i sun[day]? { make 7 } }
+  token day_of_week:sym<MON> {:i mon[day]? { make 1 } }
+  token day_of_week:sym<TUE> {:i tue[sday]? { make 2 } }
+  token day_of_week:sym<WED> {:i wed[nesday]? { make 3 } }
+  token day_of_week:sym<THU> {:i thu[rsday]? { make 4 } }
+  token day_of_week:sym<FRI> {:i fri[day]? { make 5 } }
+  token day_of_week:sym<SAT> {:i sat[urday]? { make 6 } }
 
   proto token inc_dec_period { * }
   token inc_dec_period:sym<MINUTE> {:i min | minute[s]? }
