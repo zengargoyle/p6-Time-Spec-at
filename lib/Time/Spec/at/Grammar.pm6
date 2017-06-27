@@ -74,25 +74,22 @@ grammar At {
   token NEXT {:i next }
   token UTC {:i utc }
 
-  proto rule timespec { * }
-  rule timespec:sym<sbid> { <spec_base> <inc_or_dec> }
-  rule timespec:sym<sb> { <spec_base> }
+  rule timespec { <spec_base> <inc_or_dec>? }
 
   rule spec_base {
-    | $<n>=[<.NOW>]
-    | $<d>=[<date>]
-    | $<td>=[<time> <date>]
-    | $<t>=[<.time>]
+    | <NOW>
+    # 01.01.2017 and 2107-01-01 will match time_hr_min and hr24clock_hr_min
+    # so <date> before <time>
+    | <date>
+    | <time> <date>?
   }
-  rule time {
-    | <time_base> <timezone_name>
-    | <time_base>
-  }
+
+  rule time { <time_base> <timezone_name>? }
+
   rule time_base { 
     | <hr24clock_hr_min> 
-    | <time_hour_min> <am_pm> 
+    | <time_hour_min> <am_pm>? 
     | <time_hour> <am_pm> 
-    | <time_hour_min> 
     | <NOON> | <MIDNIGHT> | <TEATIME>
   }
   rule hr24clock_hr_min { <INT4DIGIT> }
@@ -101,17 +98,17 @@ grammar At {
   rule am_pm { <AM> | <PM> }
   rule timezone_name { <UTC> }
   rule date {
-    | <month_name> <day_number> ',' <year_number>
-    | <month_name> <day_number> <year_number>
-    | <month_name> <day_number>
+    | <month_name> <day_number> ','? <year_number>?
+    # | <month_name> <day_number> <year_number>
+    # | <month_name> <day_number>
     | <day_of_week>
     | <TODAY>
     | <TOMORROW>
     | <DOTTEDDATE>
     | <HYPHENDATE>
     | <month_number> '/' <day_number> '/' <year_number>
-    | <day_number> <month_name> <year_number>
-    | <day_number> <month_name>
+    | <day_number> <month_name> <year_number>?
+    # | <day_number> <month_name>
     | <concatenated_date>
     | <NEXT> <inc_dec_period>
     | <NEXT> <day_of_week>

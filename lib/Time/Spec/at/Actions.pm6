@@ -22,13 +22,15 @@ class AtActions {
     # dd [ 'top', $/<timespec>.made ];
     make DateTime.new: |$/<timespec>.made;
   }
-  method timespec:sym<sb> ($/) {
+  method timespec ($/) {
     make $/<spec_base>.made;
   }
   method spec_base ($/) {
     given $/ {
-      when $/<n>:exists { make dt2h( $.now ) }
-      when $/<d>:exists { make $/<date>.made }
+      when $/<NOW>:exists { make dt2h( $.now ) }
+      # <time> <date>?  -- must check <time> before just <date>
+      when $/<time>:exists { dd $/<time>; } #make $/<time>.made }
+      when $/<date>:exists { make $/<date>.made }
       default { note "wut spec_base" }
     }
   }
