@@ -112,7 +112,6 @@ class AtActions {
     }
   }
   method concatenated_date ($/ is copy) {
-      dd ~$/;
       my $cd = ~$/;
       my ($month, $day, $year);
       {
