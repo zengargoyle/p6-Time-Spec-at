@@ -47,6 +47,14 @@ class AtActions {
         else { %r<year> = $.now.year }
         make %r;
       }
+      when $/<month_number>:exists {
+        my %r =
+          month => $/<month_number>.made,
+          day => $/<day_number>.made,
+          year => $/<year_number>.made,
+        ;
+        make %r;
+      }
       default { note "wut date" }
     }
   }

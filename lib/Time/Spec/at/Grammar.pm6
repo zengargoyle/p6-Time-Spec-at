@@ -114,7 +114,7 @@ grammar At {
     | <NEXT> <day_of_week>
   }
   rule concatenated_date { <INT5_8DIGIT> }
-  rule month_number { <int1_2digit> }
+  rule month_number { <int1_2digit> { make +$/ } }
   rule day_number { <.int1_2digit> { make +$/ } }
   rule year_number { <.int2_or_4digit> { make +$/ } }
   rule inc_or_dec { <increment> | <decrement> }

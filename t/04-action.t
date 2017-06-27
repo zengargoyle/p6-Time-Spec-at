@@ -59,4 +59,12 @@ $match = tpam( "01 jan 2017" );
 $try = Date.new("2017-01-01").DateTime;
 ok $match eqv $try, "01 jan 2017";
 
+$match = tpam( "01/01/2017" );
+$try = Date.new("2017-01-01").DateTime;
+ok $match eqv $try, "01/01/2017";
+
+$match = tpam( "01 / 01 / 2017" );
+$try = Date.new("2017-01-01").DateTime;
+ok $match eqv $try, "01 / 01 / 2017";
+
 done-testing;
