@@ -107,11 +107,22 @@ class AtActions {
         }
         make { year => $now.year, month => $now.month, day => $now.day };
       }
-      when $/<concatenated_date>:exists { ... }
+      when $/<concatenated_date>:exists { make $/<concatenated_date>.made }
       default { note "wut date" }
     }
   }
-
+  method concatenated_date ($/ is copy) {
+      dd ~$/;
+      my $cd = ~$/;
+      my ($month, $day, $year);
+      {
+        temp $/ = $/;
+        ($month, $day, $year) = ($cd ~~ /(\d\d)(\d\d)(\d\d?|\d\d\d\d)/).map: ~*;
+      }
+      $year += 1900 if $year < 70;
+      $year += 2000 if 70 < $year < 100;  # XXX need some YY -> YYYY logic all over the place.
+      make { :$month, :$day, :$year };
+  }
   method month_name ($/) { make $/.made }
 }
 

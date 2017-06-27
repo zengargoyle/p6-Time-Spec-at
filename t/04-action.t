@@ -128,6 +128,14 @@ ok $match eqv $try, "now + 1 day";
 $match = tpam( "now - 1 day" );
 $try = $now.earlier(:1day);
 ok $match eqv $try, "now - 1 day";
+
+$match = tpam( "120869" );
+$try = Date.new(1969,12,8).DateTime;
+ok $match eqv $try, "120869";
+$match = tpam( "12081969" );
+$try = Date.new(1969,12,8).DateTime;
+ok $match eqv $try, "120869";
+
 dd $match;
 dd $try;
 
