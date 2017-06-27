@@ -72,7 +72,7 @@ ok $match eqv $try, "today";
 
 $match = tpam( "tomorrow" );
 $try = $now.Date.later(:1day).DateTime;
-ok $match eqv $try, "today";
+ok $match eqv $try, "tomorrow";
 
 $match = tpam( "wed" );
 $try = Date.new(2017,6,27).later(:1day).DateTime;
