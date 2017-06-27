@@ -49,6 +49,9 @@ class AtActions {
         %r<hour> = 0 if %r<hour> == 12 and $/<am_pm><AM>:exists;
         make %r;
       }
+      when $/<NOON> { make { :12hour, :0minute } }
+      when $/<MIDNIGHT> { make { :0hour, :0minute } }
+      when $/<TEATIME> { make { :16hour, :0minute } }
     }
   }
   method date ($/) {
