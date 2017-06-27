@@ -55,6 +55,18 @@ class AtActions {
         ;
         make %r;
       }
+      when $/<TODAY>:exists { make { year => $.now.year, month => $.now.month, day => $.now.day } }
+      when $/<TOMORROW>:exists {
+        my $now = $.now.clone.later: :1day;
+        make { year => $now.year, month => $now.month, day => $now.day };
+      }
+      when $/<NEXT>:exists {
+        when $/<inc_dec_period>:exists { ... }
+        when $/<day_of_week>:exists { ... }
+        default { note 'wut NEXT' }
+      }
+      when $/<day_of_week>:exits { ... }
+      when $/<concatenated_date>:exists { ... }
       default { note "wut date" }
     }
   }

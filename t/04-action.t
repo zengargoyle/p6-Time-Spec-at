@@ -51,7 +51,6 @@ $try = Date.new("2017-01-01").DateTime;
 ok $match eqv $try, "jan 01, 2017";
 
 $match = tpam( "jan 01" );
-#$try = $now.clone(day=>1,month=>1,timezone=>0).truncated-to('day');
 $try = Date.new($now.year, 1, 1).DateTime;
 ok $match eqv $try, "jan 01";
 
@@ -66,5 +65,13 @@ ok $match eqv $try, "01/01/2017";
 $match = tpam( "01 / 01 / 2017" );
 $try = Date.new("2017-01-01").DateTime;
 ok $match eqv $try, "01 / 01 / 2017";
+
+$match = tpam( "today" );
+$try = $now.Date.DateTime;
+ok $match eqv $try, "today";
+
+$match = tpam( "tomorrow" );
+$try = $now.Date.later(:1day).DateTime;
+ok $match eqv $try, "today";
 
 done-testing;
