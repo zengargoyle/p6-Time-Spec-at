@@ -34,12 +34,12 @@ ok $match eqv $now, "now";
 
 # # spec_base date
 
+$match = tpam( "01.01.2017" );
+$try = Date.new("2017-01-01").DateTime;
+ok $match eqv $try, "dotteddate 01.01.2017";
+
 $match = tpam( "2017-01-01" );
 $try = Date.new("2017-01-01").DateTime;
 ok $match eqv $try, "hyphendate 2017-01-01";
-
-$match = tpam( "01.01.2017" );
-$try = Date.new("01.01.2017").DateTime;
-ok $match eqv $try, "dotteddate 01.01.2017";
 
 done-testing;
