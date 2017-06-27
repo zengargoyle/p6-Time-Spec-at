@@ -42,4 +42,16 @@ $match = tpam( "2017-01-01" );
 $try = Date.new("2017-01-01").DateTime;
 ok $match eqv $try, "hyphendate 2017-01-01";
 
+$match = tpam( "jan 01 2017" );
+$try = Date.new("2017-01-01").DateTime;
+ok $match eqv $try, "jan 01 2017";
+
+$match = tpam( "jan 01, 2017" );
+$try = Date.new("2017-01-01").DateTime;
+ok $match eqv $try, "jan 01, 2017";
+
+$match = tpam( "jan 01" );
+$try = $now.clone(day=>1,month=>1,timezone=>0).truncated-to('day');
+ok $match eqv $try, "jan 01";
+
 done-testing;

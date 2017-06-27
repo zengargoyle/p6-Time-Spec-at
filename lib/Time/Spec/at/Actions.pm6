@@ -38,9 +38,21 @@ class AtActions {
     given $/ {
       when $/<HYPHENDATE>:exists { make $/<HYPHENDATE>.made; }
       when $/<DOTTEDDATE>:exists { make $/<DOTTEDDATE>.made; }
+      when $/<month_name>:exists {
+        my %r =
+          month => $/<month_name>.made,
+          day => $/<day_number>.made,
+        ;
+        if $/<year_number> -> $m { %r<year> = $m.made }
+        else { %r<year> = $.now.year }
+        dd %r;
+        make %r;
+      }
       default { note "wut date" }
     }
   }
+
+  method month_name ($/) { make $/.made }
 }
 
 =begin pod
