@@ -111,13 +111,8 @@ class AtActions {
       default { note "wut date" }
     }
   }
-  method concatenated_date ($/ is copy) {
-      my $cd = ~$/;
-      my ($month, $day, $year);
-      {
-        temp $/ = $/;
-        ($month, $day, $year) = ($cd ~~ /(\d\d)(\d\d)(\d\d?|\d\d\d\d)/).map: ~*;
-      }
+  method concatenated_date ($/) {
+      my ($month, $day, $year) = $/.substr(0,2), $/.substr(2,2), $/.substr(4);
       $year += 1900 if $year < 70;
       $year += 2000 if 70 < $year < 100;  # XXX need some YY -> YYYY logic all over the place.
       make { :$month, :$day, :$year };
