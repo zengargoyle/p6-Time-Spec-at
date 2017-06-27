@@ -20,10 +20,22 @@ class AtActions {
 
   method TOP ($/) {
     # dd [ 'top', $/<timespec>.made ];
-    make DateTime.new: |$/<timespec>.made;
+    make $/<timespec>.made;
   }
   method timespec ($/) {
-    make $/<spec_base>.made;
+    my $dt = DateTime.new: |$/<spec_base>.made;
+    if $/<inc_or_dec>:exists {
+      given $/<inc_or_dec> {
+        when $_<increment>:exists {
+          $dt .= later: |($_<increment><inc_dec_period>.made => $_<increment><inc_dec_number>.made); 
+        }
+        when $_<decrement>:exists {
+          $dt .= earlier: |($_<decrement><inc_dec_period>.made => $_<decrement><inc_dec_number>.made); 
+        }
+        default { note 'wut timespec' }
+      }
+    }
+    make $dt;
   }
   method spec_base ($/) {
   given $/ {

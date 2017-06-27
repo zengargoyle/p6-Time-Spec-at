@@ -120,8 +120,14 @@ $try = $now.clone(:0hour, :0minute);
 ok $match eqv $try, "midnight";
 $match = tpam( "teatime" );
 $try = $now.clone(:16hour, :0minute);
-
 ok $match eqv $try, "teatime";
+
+$match = tpam( "now + 1 day" );
+$try = $now.later(:1day);
+ok $match eqv $try, "now + 1 day";
+$match = tpam( "now - 1 day" );
+$try = $now.earlier(:1day);
+ok $match eqv $try, "now - 1 day";
 dd $match;
 dd $try;
 

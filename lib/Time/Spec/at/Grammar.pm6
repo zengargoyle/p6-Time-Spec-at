@@ -50,12 +50,12 @@ grammar At {
   token day_of_week:sym<SAT> {:i sat[urday]? { make 6 } }
 
   proto token inc_dec_period { * }
-  token inc_dec_period:sym<MINUTE> {:i min | minute[s]? }
-  token inc_dec_period:sym<HOUR> {:i hour[s]? }
-  token inc_dec_period:sym<DAY> {:i day[s]? }
-  token inc_dec_period:sym<WEEK> {:i week[s]? }
-  token inc_dec_period:sym<MONTH> {:i month[s]? }
-  token inc_dec_period:sym<YEAR> {:i year[s]? }
+  token inc_dec_period:sym<MINUTE> {:i min | minute[s]? { make 'minute' } }
+  token inc_dec_period:sym<HOUR> {:i hour[s]? { make 'hour' } }
+  token inc_dec_period:sym<DAY> {:i day[s]? { make 'day' } }
+  token inc_dec_period:sym<WEEK> {:i week[s]? { make 'week' } }
+  token inc_dec_period:sym<MONTH> {:i month[s]? { make 'month' } }
+  token inc_dec_period:sym<YEAR> {:i year[s]? { make 'year' } }
 
   proto token month_name { * }
   token month_name:sym<JAN> {:i jan[uary]? { make 1 } }
@@ -120,7 +120,7 @@ grammar At {
   rule inc_or_dec { <increment> | <decrement> }
   rule increment { '+' <inc_dec_number> <inc_dec_period> }
   rule decrement { '-' <inc_dec_number> <inc_dec_period> }
-  rule inc_dec_number { <integer> }
+  rule inc_dec_number { <integer> { make $/<integer>.made } }
   rule int1_2digit { <.INT2DIGIT> | <.INT1DIGIT> }
   rule int2_or_4digit { <.INT4DIGIT> | <.INT2DIGIT> }
   rule integer { <.INT> { make +$/ } }
