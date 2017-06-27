@@ -92,7 +92,7 @@ grammar At {
     | <time_hour> <am_pm> 
     | <NOON> | <MIDNIGHT> | <TEATIME>
   }
-  rule hr24clock_hr_min { <.INT4DIGIT> { make { minute => $/ % 100, hour => ($/ / 100).Int } } }
+  rule hr24clock_hr_min { <.INT4DIGIT> { make { hour => $/.substr(0,2), minute => +$/.substr(2,2) } } }
   rule time_hour { <int1_2digit> }
   rule time_hour_min { <HOURMIN> }
   rule am_pm { <AM> | <PM> }
