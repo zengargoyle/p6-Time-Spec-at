@@ -92,6 +92,18 @@ $match = tpam( "1305 tomorrow" );
 $try = $now.clone(:13hour,:5minute,:0second,:0timezone).later(:1day);
 ok $match eqv $try, "1305 tomorrow";
 
+$match = tpam( "1:05" );
+$try = $now.clone(:1hour,:5minute);
+ok $match eqv $try, "1:05";
+
+$match = tpam( "1:05 pm" );
+$try = $now.clone(:13hour,:5minute);
+ok $match eqv $try, "1:05 pm";
+
+$match = tpam( "12:05 am" );
+$try = $now.clone(:0hour,:5minute);
+ok $match eqv $try, "12:05 am";
+
 dd $match;
 dd $try;
 

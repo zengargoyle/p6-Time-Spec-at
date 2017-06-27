@@ -26,7 +26,7 @@ class AtActions {
     make $/<spec_base>.made;
   }
   method spec_base ($/) {
-    given $/ {
+  given $/ {
       when $/<NOW>:exists { make dt2h( $.now ) }
       # <time> <date>?  -- must check <time> before just <date>
       when $/<time>:exists {
@@ -43,6 +43,12 @@ class AtActions {
   method time_base ($/) {
     given $/ {
       when $/<hr24clock_hr_min>:exists { make $/<hr24clock_hr_min>.made }
+      when $/<time_hour_min>:exists {
+        my %r = $/<time_hour_min><HOURMIN>.made;
+        %r<hour> += 12 if %r<hour> < 12 and $/<am_pm><PM>:exists;
+        %r<hour> = 0 if %r<hour> == 12 and $/<am_pm><AM>:exists;
+        make %r;
+      }
     }
   }
   method date ($/) {
