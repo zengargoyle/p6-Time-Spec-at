@@ -84,6 +84,14 @@ $match = tpam( "tue" );
 $try = Date.new(2017,6,27).DateTime;
 ok $match eqv $try, "tue";
 
+$match = tpam( "1305" );
+$try = $now.clone(:13hour,:5minute);
+ok $match eqv $try, "1305";
+
+$match = tpam( "1305 tomorrow" );
+$try = $now.clone(:13hour,:5minute,:0second,:0timezone).later(:1day);
+ok $match eqv $try, "1305 tomorrow";
+
 dd $match;
 dd $try;
 

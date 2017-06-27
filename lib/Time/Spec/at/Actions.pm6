@@ -29,9 +29,20 @@ class AtActions {
     given $/ {
       when $/<NOW>:exists { make dt2h( $.now ) }
       # <time> <date>?  -- must check <time> before just <date>
-      when $/<time>:exists { dd $/<time>; } #make $/<time>.made }
+      when $/<time>:exists {
+        my %d = $/<date>:exists ?? $/<date>.made !! dt2h($.now);
+        # %d<second timezone>:delete;  # XXX second and timezone not really supported well yet
+        %d = %d, $/<time>.made;
+        make %d;
+      }
       when $/<date>:exists { make $/<date>.made }
       default { note "wut spec_base" }
+    }
+  }
+  method time ($/) { make $/<time_base>.made }
+  method time_base ($/) {
+    given $/ {
+      when $/<hr24clock_hr_min>:exists { make $/<hr24clock_hr_min>.made }
     }
   }
   method date ($/) {
