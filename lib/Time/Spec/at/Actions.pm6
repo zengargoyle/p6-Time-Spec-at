@@ -45,7 +45,6 @@ class AtActions {
         ;
         if $/<year_number> -> $m { %r<year> = $m.made }
         else { %r<year> = $.now.year }
-        dd %r;
         make %r;
       }
       default { note "wut date" }
