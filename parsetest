@@ -1,0 +1,27 @@
+#!/usr/bin/env perl6
+use v6.c;
+
+use Time::Spec::at::Grammar;
+use Time::Spec::at::Actions;
+use DateTime::Format;
+
+sub MAIN ( Int $now, Str $timespec ) {
+  my $dt-now = DateTime.new( +$now );
+  my $dt-out = Time::Spec::at::Grammar::At.parse(
+    $timespec,
+    actions => Time::Spec::at::Actions::AtActions.new(now => $dt-now),
+    ).made;
+
+   say strftime("%a %b %d %T %Y",$dt-out); # d->e
+}
+# "Tue Nov 17 12:47:00 2009"
+#   Failed test '1258462020: now'
+#   at parsetime.pl line 33.
+#          got: ''
+#     expected: 'Tue Nov 17 12:47:00 2009'
+
+#   Failed test '1258462020: now + 23 min'
+#   at parsetime.pl line 33.
+#          got: ''
+#     expected: 'Tue Nov 17 13:10:00 2009'
+
