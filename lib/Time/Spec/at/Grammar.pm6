@@ -41,35 +41,35 @@ grammar At {
   token TOMORROW {:i tomorrow }
 
   proto token day_of_week { * }
-  token day_of_week:sym<SUN> {:i sun[day]? { make 7 } }
-  token day_of_week:sym<MON> {:i mon[day]? { make 1 } }
-  token day_of_week:sym<TUE> {:i tue[sday]? { make 2 } }
-  token day_of_week:sym<WED> {:i wed[nesday]? { make 3 } }
-  token day_of_week:sym<THU> {:i thu[rsday]? { make 4 } }
-  token day_of_week:sym<FRI> {:i fri[day]? { make 5 } }
-  token day_of_week:sym<SAT> {:i sat[urday]? { make 6 } }
+  token day_of_week:sym<SUN> {:i sun[day]? }
+  token day_of_week:sym<MON> {:i mon[day]? }
+  token day_of_week:sym<TUE> {:i tue[sday]? }
+  token day_of_week:sym<WED> {:i wed[nesday]? }
+  token day_of_week:sym<THU> {:i thu[rsday]? }
+  token day_of_week:sym<FRI> {:i fri[day]? }
+  token day_of_week:sym<SAT> {:i sat[urday]? }
 
   proto token inc_dec_period { * }
-  token inc_dec_period:sym<MINUTE> {:i min | minute[s]? { make 'minute' } }
-  token inc_dec_period:sym<HOUR> {:i hour[s]? { make 'hour' } }
-  token inc_dec_period:sym<DAY> {:i day[s]? { make 'day' } }
-  token inc_dec_period:sym<WEEK> {:i week[s]? { make 'week' } }
-  token inc_dec_period:sym<MONTH> {:i month[s]? { make 'month' } }
-  token inc_dec_period:sym<YEAR> {:i year[s]? { make 'year' } }
+  token inc_dec_period:sym<MINUTE> {:i min | minute[s]? }
+  token inc_dec_period:sym<HOUR> {:i hour[s]? }
+  token inc_dec_period:sym<DAY> {:i day[s]? }
+  token inc_dec_period:sym<WEEK> {:i week[s]? }
+  token inc_dec_period:sym<MONTH> {:i month[s]? }
+  token inc_dec_period:sym<YEAR> {:i year[s]? }
 
   proto token month_name { * }
-  token month_name:sym<JAN> {:i jan[uary]? { make 1 } }
-  token month_name:sym<FEB> {:i feb[ruary]? { make 2 } }
-  token month_name:sym<MAR> {:i mar[ch]? { make 3 } }
-  token month_name:sym<APR> {:i apr[il]? { make 4 } }
-  token month_name:sym<MAY> {:i may { make 5 } }
-  token month_name:sym<JUN> {:i jun[e]? { make 6 } }
-  token month_name:sym<JUL> {:i jul[y]? { make 7 } }
-  token month_name:sym<AUG> {:i aug[ust]? { make 8 } }
-  token month_name:sym<SEP> {:i sep[tember]? { make 9 } }
-  token month_name:sym<OCT> {:i oct[ober]? { make 10 } }
-  token month_name:sym<NOV> {:i nov[ember]? { make 11 } }
-  token month_name:sym<DEC> {:i dec[ember]? { make 12 } }
+  token month_name:sym<JAN> {:i jan[uary]? }
+  token month_name:sym<FEB> {:i feb[ruary]? }
+  token month_name:sym<MAR> {:i mar[ch]? }
+  token month_name:sym<APR> {:i apr[il]? }
+  token month_name:sym<MAY> {:i may }
+  token month_name:sym<JUN> {:i jun[e]? }
+  token month_name:sym<JUL> {:i jul[y]? }
+  token month_name:sym<AUG> {:i aug[ust]? }
+  token month_name:sym<SEP> {:i sep[tember]? }
+  token month_name:sym<OCT> {:i oct[ober]? }
+  token month_name:sym<NOV> {:i nov[ember]? }
+  token month_name:sym<DEC> {:i dec[ember]?  }
 
   token NEXT {:i next }
   token UTC {:i utc }

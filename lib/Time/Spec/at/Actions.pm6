@@ -22,6 +22,35 @@ class AtActions {
     # dd [ 'top', $/<timespec>.made ];
     make $/<timespec>.made;
   }
+
+  method inc_dec_period:sym<MINUTE> ($/) { make 'minute' }
+  method inc_dec_period:sym<HOUR> ($/) { make 'hour' };
+  method inc_dec_period:sym<DAY> ($/) { make 'day' };
+  method inc_dec_period:sym<WEEK> ($/) { make 'week' };
+  method inc_dec_period:sym<MONTH> ($/) { make 'month' };
+  method inc_dec_period:sym<YEAR> ($/) { make 'year' };
+
+  method day_of_week:sym<SUN> ($/) { make 7 };
+  method day_of_week:sym<MON> ($/) { make 1 };
+  method day_of_week:sym<TUE> ($/) { make 2 };
+  method day_of_week:sym<WED> ($/) { make 3 };
+  method day_of_week:sym<THU> ($/) { make 4 };
+  method day_of_week:sym<FRI> ($/) { make 5 };
+  method day_of_week:sym<SAT> ($/) { make 6 };
+
+  method month_name:sym<JAN> ($/) { make 1 };
+  method month_name:sym<FEB> ($/) { make 2 };
+  method month_name:sym<MAR> ($/) { make 3 };
+  method month_name:sym<APR> ($/) { make 4 };
+  method month_name:sym<MAY> ($/) { make 5 };
+  method month_name:sym<JUN> ($/) { make 6 };
+  method month_name:sym<JUL> ($/) { make 7 };
+  method month_name:sym<AUG> ($/) { make 8 };
+  method month_name:sym<SEP> ($/) { make 9 };
+  method month_name:sym<OCT> ($/) { make 10 };
+  method month_name:sym<NOV> ($/) { make 11 };
+  method month_name:sym<DEC> ($/) { make 12 };
+
   method timespec ($/) {
     my $dt = DateTime.new: |$/<spec_base>.made;
     if $/<inc_or_dec>:exists {
