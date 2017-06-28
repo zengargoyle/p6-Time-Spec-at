@@ -165,6 +165,25 @@ class AtActions {
   method month_name:sym<NOV> ($/) { make 11 };
   method month_name:sym<DEC> ($/) { make 12 };
 
+  method integer ($/) { make +$/ }
+  method inc_dec_number ($/) { make $/<integer>.made }
+  method month_number ($/) { make +$/ }
+  method day_number ($/) { make +$/ }
+  method year_number ($/) { make +$/ }
+
+  method DOTTEDDATE ($/) {
+    { make { year => +$/<year>, month => +$/<month>, day => +$/<day> } }
+  }
+  method HYPHENDATE ($/) {
+    { make { year => +$/<year>, month => +$/<month>, day => +$/<day> } }
+  }
+  method HOURMIN ($/) {
+    { make { hour => +$/<hour>, minute => +$/<minute> } }
+  }
+  method hr24clock_hr_min ($/) {
+    make { hour => $/.substr(0,2), minute => +$/.substr(2,2) };
+  }
+
 }
 
 =begin pod

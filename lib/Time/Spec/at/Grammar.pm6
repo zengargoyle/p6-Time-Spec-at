@@ -6,27 +6,27 @@ grammar At {
 
   rule TOP { ^^ <timespec> $$ }
 
-  token INT1DIGIT { <[0..9]> { make +$/ } }
-  token INT2DIGIT { <[0..9]> ** 2 { make +$/ } }
-  token INT4DIGIT { <[0..9]> ** 4 { make +$/ } }
-  token INT5_8DIGIT { <[0..9]> ** 5..8 { make +$/ } }
-  token INT { <.INT1DIGIT> + { make +$/ } }
+  token INT1DIGIT { <[0..9]> }
+  token INT2DIGIT { <[0..9]> ** 2 }
+  token INT4DIGIT { <[0..9]> ** 4 }
+  token INT5_8DIGIT { <[0..9]> ** 5..8 }
+  token INT { <.INT1DIGIT> + }
+
   token DOTTEDDATE {
     $<month>=[ <.INT1DIGIT> ** 1..2 ] '.'
     $<day>=[ <.INT1DIGIT> ** 1..2 ] '.'
     $<year>=[ <.INT4DIGIT> | <.INT2DIGIT> ]
-    { make { year => +$/<year>, month => +$/<month>, day => +$/<day> } }
   }
+
   token HYPHENDATE {
     $<year>=[ <.INT4DIGIT> | <.INT2DIGIT> ] '-'
     $<month>=[ <.INT1DIGIT> ** 1..2 ] '-'
     $<day>=[ <.INT1DIGIT> ** 1..2 ]
-    { make { year => +$/<year>, month => +$/<month>, day => +$/<day> } }
   }
+
   token HOURMIN {
     $<hour>=[ <[0..2]> <.INT1DIGIT> | <.INT1DIGIT> ] <[\:\'h,\.]>
     $<minute>=[<.INT2DIGIT>]
-    { make { hour => +$/<hour>, minute => +$/<minute> } }
   }
 
   token AM {:i am }
@@ -39,6 +39,9 @@ grammar At {
 
   token TODAY {:i today }
   token TOMORROW {:i tomorrow }
+
+  token NEXT {:i next }
+  token UTC {:i utc }
 
   proto token day_of_week { * }
   token day_of_week:sym<SUN> {:i sun[day]? }
@@ -71,9 +74,6 @@ grammar At {
   token month_name:sym<NOV> {:i nov[ember]? }
   token month_name:sym<DEC> {:i dec[ember]?  }
 
-  token NEXT {:i next }
-  token UTC {:i utc }
-
   rule timespec { <spec_base> <inc_or_dec>? }
 
   rule spec_base {
@@ -92,11 +92,13 @@ grammar At {
     | <time_hour> <am_pm> 
     | <NOON> | <MIDNIGHT> | <TEATIME>
   }
-  rule hr24clock_hr_min { <.INT4DIGIT> { make { hour => $/.substr(0,2), minute => +$/.substr(2,2) } } }
+
+  rule hr24clock_hr_min { <.INT4DIGIT> }
   rule time_hour { <int1_2digit> }
   rule time_hour_min { <HOURMIN> }
   rule am_pm { <AM> | <PM> }
   rule timezone_name { <UTC> }
+
   rule date {
     | <month_name> <day_number> ','? <year_number>?
     # | <month_name> <day_number> <year_number>
@@ -113,17 +115,18 @@ grammar At {
     | <NEXT> <inc_dec_period>
     | <NEXT> <day_of_week>
   }
+
   rule concatenated_date { <INT5_8DIGIT> }
-  rule month_number { <int1_2digit> { make +$/ } }
-  rule day_number { <.int1_2digit> { make +$/ } }
-  rule year_number { <.int2_or_4digit> { make +$/ } }
+  rule month_number { <int1_2digit> }
+  rule day_number { <.int1_2digit> }
+  rule year_number { <.int2_or_4digit> }
   rule inc_or_dec { <increment> | <decrement> }
   rule increment { '+' <inc_dec_number> <inc_dec_period> }
   rule decrement { '-' <inc_dec_number> <inc_dec_period> }
-  rule inc_dec_number { <integer> { make $/<integer>.made } }
+  rule inc_dec_number { <integer> }
   rule int1_2digit { <.INT2DIGIT> | <.INT1DIGIT> }
   rule int2_or_4digit { <.INT4DIGIT> | <.INT2DIGIT> }
-  rule integer { <.INT> { make +$/ } }
+  rule integer { <.INT> }
 
 }
 
