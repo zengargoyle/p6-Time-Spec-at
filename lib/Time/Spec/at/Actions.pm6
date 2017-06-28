@@ -45,7 +45,7 @@ class AtActions {
       when $/<time>:exists {
         my %d = $/<date>:exists ?? $/<date>.made !! dt2h($.now);
         # %d<second timezone>:delete;  # XXX second and timezone not really supported well yet
-        %d = %d, $/<time>.made;
+        %d ,= $/<time>.made;
         make %d;
       }
 
