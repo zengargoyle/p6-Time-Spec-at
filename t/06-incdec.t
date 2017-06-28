@@ -57,7 +57,7 @@ ok $match eqv $try, "tue";
 
 $match = tpam( "now + 23 min", now => DateTime.new(1258462020) );
 $try = DateTime.new(1258462020).later(:23minute);
-# ok $match eqv $try, "120869";
+ok $match eqv $try, "now + 23 min";
 dd $match; dd $try;
 
 done-testing;
