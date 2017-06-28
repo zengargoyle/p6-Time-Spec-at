@@ -107,21 +107,28 @@ class AtActions {
         make { year => $now.year, month => $now.month, day => $now.day };
       }
 
-      when $/<NEXT>:exists {
-        when $/<inc_dec_period>:exists { ... }
-        when $/<day_of_week>:exists { ... }
-        default { note 'wut NEXT' }
-      }
-
-      when $/<day_of_week>:exists { 
+      sub next-day-of-week( $day ) {
         my $now = $.now.Date;
         my $now-day = $now.day-of-week;
-        my $dow = $/<day_of_week>.made;
+        my $dow = $day;
         given $now-day cmp $dow {
           when Less { $now .= later: day => $dow - $now-day; }
           when More { $now .= earlier: day => $now-day - $dow; $now .= later: :1week; }
         }
-        make { year => $now.year, month => $now.month, day => $now.day };
+        return { year => $now.year, month => $now.month, day => $now.day };
+      }
+
+      when $/<NEXT>:exists {
+        when $/<inc_dec_period>:exists {
+          my $n = $.now.later(|%( $/<inc_dec_period>.made, 1));
+          make dt2h($n);
+        }
+        when $/<day_of_week>:exists { make next-day-of-week( $/<day_of_week>.made ) }
+        default { note 'wut NEXT' }
+      }
+
+      when $/<day_of_week>:exists { 
+        make next-day-of-week( $/<day_of_week>.made );
       }
 
       when $/<concatenated_date>:exists { make $/<concatenated_date>.made }
