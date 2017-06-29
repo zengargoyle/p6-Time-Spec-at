@@ -55,7 +55,10 @@ class AtActions {
     }
   }
 
-  method time ($/) { make $/<time_base>.made }
+  method time ($/) {
+    if $/<timezone_name>:exists { X::NYI.new(:feature<utc>).throw };
+    make $/<time_base>.made;
+  }
 
   method time_base ($/) {
     given $/ {
