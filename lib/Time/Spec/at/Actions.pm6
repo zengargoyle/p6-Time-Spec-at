@@ -23,7 +23,7 @@ class AtActions {
   }
 
   method timespec ($/) {
-    my $dt = DateTime.new: |$/<spec_base>.made;
+    my $dt = $<spec_base>.made;
     if $/<inc_or_dec>:exists {
       given $/<inc_or_dec> {
         when $_<increment>:exists {
@@ -39,14 +39,17 @@ class AtActions {
   }
   method spec_base ($/) {
   given $/ {
-      when $/<NOW>:exists { make dt2h( $.now ) }
+      when $/<NOW>:exists { make $.now.clone }
 
       # <time> <date>?  -- must check <time> before just <date>
       when $/<time>:exists {
-        my %d = $/<date>:exists ?? $/<date>.made !! dt2h($.now);
-        # %d<second timezone>:delete;  # XXX second and timezone not really supported well yet
-        %d ,= $/<time>.made;
-        make %d;
+        if $<date>:exists {
+          make $.now.clone(
+              |%(dt2h($<time>.made)<hour minute>:p),
+              |%(dt2h($<date>.made)<year month day>:p),
+          );
+        }
+        else { make $<time>.made };
       }
 
       when $/<date>:exists { make $/<date>.made }
@@ -62,7 +65,7 @@ class AtActions {
 
   method time_base ($/) {
     given $/ {
-      when $/<hr24clock_hr_min>:exists { make $/<hr24clock_hr_min>.made }
+      when $/<hr24clock_hr_min>:exists { make $.now.clone(|$<hr24clock_hr_min>.made) }
 
       when $/<time_hour_min>:exists or $/<time_hour>:exists {
         my %r = $/<time_hour_min><HOURMIN>.made // hour => +$/<time_hour>;
@@ -79,35 +82,31 @@ class AtActions {
 
   method date ($/) {
     given $/ {
-
-      when $/<HYPHENDATE>:exists { make $/<HYPHENDATE>.made; }
-      when $/<DOTTEDDATE>:exists { make $/<DOTTEDDATE>.made; }
+      when $/<HYPHENDATE>:exists { make $.now.clone(|$<HYPHENDATE>.made); }
+      when $/<DOTTEDDATE>:exists { make $.now.clone(|$<DOTTEDDATE>.made); }
 
       when $/<month_name>:exists {
-        my %r =
-          month => $/<month_name>.made,
-          day => $/<day_number>.made,
-        ;
-        if $/<year_number> -> $m { %r<year> = $m.made }
-        else { %r<year> = $.now.year }
-        make %r;
+        make $.now.clone(
+          month => $<month_name>.made,
+          day => $<day_number>.made,
+          |%( year => $<year_number>.made if $<year_number>:exists ),
+          # |%( $<year_number>:exists ?? year => $<year_number>.made !! () ),
+        );
       }
 
       when $/<month_number>:exists {
-        my %r =
-          month => $/<month_number>.made,
-          day => $/<day_number>.made,
-          year => $/<year_number>.made,
-        ;
-        make %r;
+        make $.now.clone(
+          month => $<month_number>.made,
+          day => $<day_number>.made,
+          year => $<year_number>.made,
+        );
       }
 
       when $/<TODAY>:exists {
-        make { year => $.now.year, month => $.now.month, day => $.now.day };
+        make $.now.clone;
       }
       when $/<TOMORROW>:exists {
-        my $now = $.now.clone.later: :1day;
-        make { year => $now.year, month => $now.month, day => $now.day };
+        make $.now.clone.later :1day;
       }
 
       sub next-day-of-week( $day ) {
@@ -191,7 +190,7 @@ class AtActions {
     { make { hour => +$/<hour>, minute => +$/<minute> } }
   }
   method hr24clock_hr_min ($/) {
-    make { hour => $/.substr(0,2), minute => +$/.substr(2,2) };
+    make { hour => +$/.substr(0,2), minute => +$/.substr(2,2) };
   }
 
 }
