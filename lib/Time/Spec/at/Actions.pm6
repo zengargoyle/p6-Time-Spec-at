@@ -77,15 +77,22 @@ class AtActions {
       when $/<hr24clock_hr_min>:exists { make $.now.clone(|$<hr24clock_hr_min>.made) }
 
       when $/<time_hour_min>:exists or $/<time_hour>:exists {
-        my %r = $/<time_hour_min><HOURMIN>.made // hour => +$/<time_hour>;
-        %r<hour> += 12 if %r<hour> < 12 and $/<am_pm><PM>:exists;
-        %r<hour> = 0 if %r<hour> == 12 and $/<am_pm><AM>:exists;
-        make %r;
+        given $<time_hour_min> or $<time_hour> -> $th {
+          my $dt = $.now.clone(|$th.made);
+          $dt .= later(:12hour) if $dt.hour < 12 and $<am_pm><PM>:exists;
+          $dt .= clone(:0hour) if $dt.hour == 12 and $<am_pm><AM>:exists;
+          make $dt;
+        }
       }
+      #   my %r = $/<time_hour_min><HOURMIN>.made // hour => +$/<time_hour>;
+      #   %r<hour> += 12 if %r<hour> < 12 and $/<am_pm><PM>:exists;
+      #   %r<hour> = 0 if %r<hour> == 12 and $/<am_pm><AM>:exists;
+      #   make %r;
+      # }
 
-      when $/<NOON> { make { :12hour, :0minute } }
-      when $/<MIDNIGHT> { make { :0hour, :0minute } }
-      when $/<TEATIME> { make { :16hour, :0minute } }
+      when $/<NOON> { make $.now.clone(:12hour, :0minute) }
+      when $/<MIDNIGHT> { make $.now.clone(:0hour, :0minute) }
+      when $/<TEATIME> { make $.now.clone(:16hour, :0minute) }
     }
   }
 
@@ -142,14 +149,14 @@ class AtActions {
         make next-day-of-week( $/<day_of_week>.made );
       }
 
-      when $/<concatenated_date>:exists { make $/<concatenated_date>.made }
+      when $/<concatenated_date>:exists { make $.now.clone(|$/<concatenated_date>.made) }
 
       default { note "wut date" }
     }
   }
 
   method concatenated_date ($/) {
-      my ($month, $day, $year) = $/.substr(0,2), $/.substr(2,2), $/.substr(4);
+      my ($month, $day, $year) = +$/.substr(0,2), +$/.substr(2,2), +$/.substr(4);
       $year += 1900 if $year < 70;
       $year += 2000 if 70 < $year < 100;  # XXX need some YY -> YYYY logic all over the place.
       make { :$month, :$day, :$year };
@@ -200,6 +207,12 @@ class AtActions {
   }
   method hr24clock_hr_min ($/) {
     make { hour => +$/.substr(0,2), minute => +$/.substr(2,2) };
+  }
+  method time_hour ($/) {
+    make { hour => +$<int1_2digit> };
+  }
+  method time_hour_min ($/) {
+    make $<HOURMIN>.made;
   }
 
 }

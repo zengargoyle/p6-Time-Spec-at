@@ -88,49 +88,49 @@ $match = tpam( "1305 tomorrow" );
 $try = $now.clone(:13hour,:5minute).later(:1day);
 ok $match eqv $try, "1305 tomorrow";
 
-# $match = tpam( "1:05" );
-# $try = $now.clone(:1hour,:5minute);
-# ok $match eqv $try, "1:05";
+$match = tpam( "1:05" );
+$try = $now.clone(:1hour,:5minute);
+ok $match eqv $try, "1:05";
 
-# $match = tpam( "1:05 pm" );
-# $try = $now.clone(:13hour,:5minute);
-# ok $match eqv $try, "1:05 pm";
+$match = tpam( "1:05 pm" );
+$try = $now.clone(:13hour,:5minute);
+ok $match eqv $try, "1:05 pm";
 
-# $match = tpam( "12:05 am" );
-# $try = $now.clone(:0hour,:5minute);
-# ok $match eqv $try, "12:05 am";
+$match = tpam( "12:05 am" );
+$try = $now.clone(:0hour,:5minute);
+ok $match eqv $try, "12:05 am";
 
-# $match = tpam( "1 pm" );
-# $try = $now.clone(:13hour);
-# ok $match eqv $try, "1 pm";
+$match = tpam( "1 pm" );
+$try = $now.clone(:13hour);
+ok $match eqv $try, "1 pm";
 
-# $match = tpam( "12 am" );
-# $try = $now.clone(:0hour);
-# ok $match eqv $try, "12 am";
+$match = tpam( "12 am" );
+$try = $now.clone(:0hour);
+ok $match eqv $try, "12 am";
 
-# $match = tpam( "noon" );
-# $try = $now.clone(:12hour, :0minute);
-# ok $match eqv $try, "noon";
-# $match = tpam( "midnight" );
-# $try = $now.clone(:0hour, :0minute);
-# ok $match eqv $try, "midnight";
-# $match = tpam( "teatime" );
-# $try = $now.clone(:16hour, :0minute);
-# ok $match eqv $try, "teatime";
+$match = tpam( "noon" );
+$try = $now.clone(:12hour, :0minute);
+ok $match eqv $try, "noon";
+$match = tpam( "midnight" );
+$try = $now.clone(:0hour, :0minute);
+ok $match eqv $try, "midnight";
+$match = tpam( "teatime" );
+$try = $now.clone(:16hour, :0minute);
+ok $match eqv $try, "teatime";
 
-# $match = tpam( "now + 1 day" );
-# $try = $now.later(:1day);
-# ok $match eqv $try, "now + 1 day";
-# $match = tpam( "now - 1 day" );
-# $try = $now.earlier(:1day);
-# ok $match eqv $try, "now - 1 day";
+$match = tpam( "now + 1 day" );
+$try = $now.later(:1day);
+ok $match eqv $try, "now + 1 day";
+$match = tpam( "now - 1 day" );
+$try = $now.earlier(:1day);
+ok $match eqv $try, "now - 1 day";
 
-# $match = tpam( "120869" );
-# $try = Date.new(1969,12,8).DateTime;
-# ok $match eqv $try, "120869";
-# $match = tpam( "12081969" );
-# $try = Date.new(1969,12,8).DateTime;
-# ok $match eqv $try, "120869";
+$match = tpam( "120869" );
+$try = $now.clone(:1969year,:12month,:8day);
+ok $match eqv $try, "120869";
+$match = tpam( "12081969" );
+$try = $now.clone(:1969year,:12month,:8day);
+ok $match eqv $try, "120869";
 
 # dd $match;
 # dd $try;
