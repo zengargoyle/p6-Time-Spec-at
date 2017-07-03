@@ -44,10 +44,19 @@ class AtActions {
       # <time> <date>?  -- must check <time> before just <date>
       when $/<time>:exists {
         if $<date>:exists {
+          my $t = $<time>.made;
+          my $d = $<date>.made;
           make $.now.clone(
-              |%(dt2h($<time>.made)<hour minute>:p),
-              |%(dt2h($<date>.made)<year month day>:p),
+            hour => $t.hour,
+            minute => $t.minute,
+            year => $d.year,
+            month => $d.month,
+            day => $d.day,
           );
+          # make $.now.clone(
+              # |%(dt2h($<time>.made)<hour minute>:p),
+              # |%(dt2h($<date>.made)<year month day>:p),
+          # );
         }
         else { make $<time>.made };
       }
