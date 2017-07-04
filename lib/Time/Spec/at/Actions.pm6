@@ -4,15 +4,54 @@ unit module Time::Spec::at::Actions:ver<0.0.1>:auth<github:zengargoyle>;
 
 class AtActions {
 
-  has DateTime $.now is rw = DateTime.now;
+  has DateTime $.now = DateTime.now;
+  has Bool $.strict = False;
+
+  has Str $!had-interval = 'minute';
+  has Bool $!had-date = False;
+
+  submethod TWEAK() {
+    if $!strict {
+      $!now .= clone(:0second,:0timezone);
+    }
+  }
 
   method TOP ($/) {
-    make $/<timespec>.made;
+    my $dt = $<timespec>.made;
+    unless $.strict { 
+      make $dt;
+      return;
+    }
+    # if $!had-interval {
+    #   make $dt if $dt > $.now;
+    #   return;
+    # }
+    if $dt >= $.now {
+      make $dt;
+      return;
+    }
+
+    my @to-try = <minute day week month year>;
+    if $!had-interval {
+      @to-try = @to-try.grep({ $_ eq $!had-interval ^ff False});
+    }
+    if $!had-date {
+      @to-try = <year>;
+    }
+
+    for @to-try -> $period {
+      my $c = $dt.later(|%($period, 1));
+      if $c >= $.now {
+        make $c;
+        return;
+      }
+    }
   }
 
   method timespec ($/) {
     my $dt = $<spec_base>.made;
     if $/<inc_or_dec>:exists {
+      $!had-interval = $<inc_or_dec><increment><inc_dec_period>.made;
       given $/<inc_or_dec> {
         when $_<increment>:exists {
           $dt .= later: |($_<increment><inc_dec_period>.made => $_<increment><inc_dec_number>.made); 
@@ -81,10 +120,10 @@ class AtActions {
   }
 
   method date ($/) {
+    $!had-date = True;
     given $/ {
       when $/<HYPHENDATE>:exists { make $.now.clone(|$<HYPHENDATE>.made); }
       when $/<DOTTEDDATE>:exists { make $.now.clone(|$<DOTTEDDATE>.made); }
-
       when $/<month_name>:exists {
         make $.now.clone(
           month => $<month_name>.made,
@@ -122,9 +161,13 @@ class AtActions {
 
       when $/<NEXT>:exists {
         when $/<inc_dec_period>:exists {
+          $!had-interval = ~$<inc_dec_period>.made;
           make $.now.later(|%( $/<inc_dec_period>.made, 1));
         }
-        when $/<day_of_week>:exists { make next-day-of-week( $/<day_of_week>.made ) }
+        when $/<day_of_week>:exists {
+          $!had-interval = 'week';
+          make next-day-of-week( $/<day_of_week>.made );
+        }
         default { note 'wut NEXT' }
       }
 
