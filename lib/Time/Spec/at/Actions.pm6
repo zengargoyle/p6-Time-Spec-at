@@ -6,18 +6,6 @@ class AtActions {
 
   has DateTime $.now is rw = DateTime.now;
 
-  my sub dt2h ($dt) {
-    return {
-      year => $dt.year,
-      month => $dt.month,
-      day => $dt.day,
-      hour => $dt.hour,
-      minute => $dt.minute,
-      second => $dt.second,
-      timezone => $dt.timezone,
-    }
-  }
-
   method TOP ($/) {
     make $/<timespec>.made;
   }
@@ -53,10 +41,6 @@ class AtActions {
             month => $d.month,
             day => $d.day,
           );
-          # make $.now.clone(
-              # |%(dt2h($<time>.made)<hour minute>:p),
-              # |%(dt2h($<date>.made)<year month day>:p),
-          # );
         }
         else { make $<time>.made };
       }
@@ -133,13 +117,12 @@ class AtActions {
           when Less { $now .= later: day => $dow - $now-day; }
           when More { $now .= earlier: day => $now-day - $dow; $now .= later: :1week; }
         }
-        return { year => $now.year, month => $now.month, day => $now.day };
+        return $.now.clone(year => $now.year, month => $now.month, day => $now.day);
       }
 
       when $/<NEXT>:exists {
         when $/<inc_dec_period>:exists {
-          my $n = $.now.later(|%( $/<inc_dec_period>.made, 1));
-          make dt2h($n);
+          make $.now.later(|%( $/<inc_dec_period>.made, 1));
         }
         when $/<day_of_week>:exists { make next-day-of-week( $/<day_of_week>.made ) }
         default { note 'wut NEXT' }

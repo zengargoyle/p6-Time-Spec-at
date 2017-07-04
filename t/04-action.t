@@ -13,20 +13,33 @@ diag $now;
 
 # helper functions
 
-my sub tpa ($str) {
+my sub tpa ($str, :$now) {
   Time::Spec::at::Grammar::At.parse(
     $str,
     actions => Time::Spec::at::Actions::AtActions.new(:$now)
   );
 }
 
-my sub tpam ($str) { tpa($str).made; }
+my sub tpam ($str, :$now = UNIT::<$now>) { tpa($str, :$now).made; }
 
 # tests
 
 my DateTime $match;
 my DateTime $try;
 
+# Test with both a DateTime.now object, and truncated like `at`
+run-tests();
+$now .= clone(:0second,:0timezone);
+run-tests();
+
+# Our NYI case....
+
+throws-like { tpam( "2359 utc" ) }, X::NYI;
+
+done-testing;
+
+
+sub run-tests() {
 # spec_base
 
 $match = tpam( "now" );
@@ -69,16 +82,18 @@ $match = tpam( "tomorrow" );
 $try = $now.clone.later(:1day);
 ok $match eqv $try, "tomorrow";
 
-# todo "fix next day_name logic", 3;
-# $match = tpam( "wed" );
-# $try = Date.new(2017,6,27).later(:1day).DateTime;
-# ok $match eqv $try, "wed";
-# $match = tpam( "mon" );
-# $try = Date.new(2017,6,27).earlier(:1day).later(:1week).DateTime;
-# ok $match eqv $try, "mon";
-# $match = tpam( "tue" );
-# $try = Date.new(2017,6,27).DateTime;
-# ok $match eqv $try, "tue";
+# Use a specific date for day_of_week tests
+$match = tpam( "wed", now => $now.clone(:2017year,:6month,:27day) );
+$try = $now.clone(:2017year,:6month,:27day).later(:1day);
+ok $match eqv $try, "wed";
+
+$match = tpam( "mon", now => $now.clone(:2017year,:6month,:27day) );
+$try = $now.clone(:2017year,:6month,:27day).earlier(:1day).later(:1week);
+ok $match eqv $try, "mon";
+
+$match = tpam( "tue", now => $now.clone(:2017year,:6month,:27day) );
+$try = $now.clone(:2017year,:6month,:27day);
+ok $match eqv $try, "tue";
 
 $match = tpam( "1305" );
 $try = $now.clone(:13hour,:5minute);
@@ -111,9 +126,11 @@ ok $match eqv $try, "12 am";
 $match = tpam( "noon" );
 $try = $now.clone(:12hour, :0minute);
 ok $match eqv $try, "noon";
+
 $match = tpam( "midnight" );
 $try = $now.clone(:0hour, :0minute);
 ok $match eqv $try, "midnight";
+
 $match = tpam( "teatime" );
 $try = $now.clone(:16hour, :0minute);
 ok $match eqv $try, "teatime";
@@ -128,11 +145,21 @@ ok $match eqv $try, "now - 1 day";
 $match = tpam( "120869" );
 $try = $now.clone(:1969year,:12month,:8day);
 ok $match eqv $try, "120869";
+
 $match = tpam( "12081969" );
 $try = $now.clone(:1969year,:12month,:8day);
 ok $match eqv $try, "120869";
 
+$match = tpam( "next week" );
+$try = $now.later(:1week);
+ok $match eqv $try, "next week";
+
+# same as just day_of_week
+$match = tpam( "next mon", now => $now.clone(:2017year,:6month,:27day) );
+$try = $now.clone(:2017year,:6month,:27day).earlier(:1day).later(:1week);
+ok $match eqv $try, "next mon";
+
 # dd $match;
 # dd $try;
+} # run-tests()
 
-done-testing;
