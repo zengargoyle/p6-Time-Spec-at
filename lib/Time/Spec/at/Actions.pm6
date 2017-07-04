@@ -4,7 +4,7 @@ unit module Time::Spec::at::Actions:ver<0.0.1>:auth<github:zengargoyle>;
 
 class AtActions {
 
-  has DateTime $.now is rw = DateTime.now;
+  has DateTime $.now = DateTime.now;
 
   method TOP ($/) {
     make $/<timespec>.made;
