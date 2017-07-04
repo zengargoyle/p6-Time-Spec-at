@@ -45,6 +45,13 @@ my sub tpam ($str, :$now = UNIT::<$now>) { tpa($str, :$now).made; }
 
 # tests
 
+{
+  my $now = DateTime.now;
+  my $match = tpam("now", :$now);
+  my $try = $now.clone(:0second,:0timezone);
+  is $match, $try, ":strict truncates correctly";
+}
+
 # now, + relative
 test("now", "Tue Nov 17 12:47:00 2009");
 test("now + 1 min", "Tue Nov 17 12:48:00 2009");
