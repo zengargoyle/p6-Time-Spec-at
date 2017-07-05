@@ -5,7 +5,6 @@ use Test;
 use Time::Spec::at;
 use Time::Spec::at::Grammar;
 use Time::Spec::at::Actions;
-use DateTime::Format;
 
 sub strptime($string, $format = Nil) {
 
